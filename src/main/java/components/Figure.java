@@ -1,34 +1,52 @@
 package components;
 
-public interface Figure {
-    int xPos = 0;
-    int yPos = 0;
-    int id = 0;
-    String name = null;
+import java.awt.*;
 
-    void drawFigure();
+public abstract class Figure {
+    int xPos;
+    int yPos;
+    int id;
+    String name;
 
-    void setName(String name);
+    public Figure(int id, String name, int xPos, int yPos) {
+        this.id = id;
+        this.name = name;
+        this.xPos = xPos;
+        this.yPos = yPos;
+    }
 
-    void setId(int id);
+    abstract public void drawFigure(Graphics g);
 
-    void setXPos(int xPos);
 
-    void setYPos(int yPos);
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    default int getId() {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setXPos(int xPos) {
+        this.xPos = xPos;
+    }
+
+    public void setYPos(int yPos) {
+        this.yPos = yPos;
+    }
+
+    public int getId() {
         return id;
     }
 
-    default String getName() {
+    public String getName() {
         return name;
     }
 
-    default int getXPos() {
+    public int getXPos() {
         return xPos;
     }
 
-    default int getYPos() {
+    public int getYPos() {
         return yPos;
     }
 }
