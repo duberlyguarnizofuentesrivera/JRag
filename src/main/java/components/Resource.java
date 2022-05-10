@@ -3,7 +3,7 @@ package components;
 import java.awt.*;
 
 public class Resource extends Figure {
-    public static int RADIUS = 50;
+    public static int DIAMETER = 50;
     public int getNumberOfInstances() {
         return numberOfInstances;
     }
@@ -30,10 +30,13 @@ public class Resource extends Figure {
 
     @Override
     public void drawFigure(Graphics g) {
+        FontMetrics fontMetrics = g.getFontMetrics();
+        int stringWidth = fontMetrics.stringWidth(name);
+        int stringHeight = fontMetrics.getAscent();
         g.setColor(Color.WHITE);
-        g.fillOval(xPos, yPos, RADIUS, RADIUS);
+        g.fillOval(xPos, yPos, DIAMETER, DIAMETER);
         g.setColor(Color.BLACK);
-        g.drawString(name, xPos+RADIUS/2, yPos+RADIUS/2);
+        g.drawString(name, xPos+ (DIAMETER /2) - stringWidth/2, yPos+ DIAMETER /2 + stringHeight/2);
     }
 
     @Override

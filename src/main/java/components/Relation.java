@@ -13,4 +13,5 @@ public class Relation {
     public HashSet<Resource> getResources() {
         return resources;
     }
+
 }
