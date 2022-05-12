@@ -1,5 +1,7 @@
 package components;
 
+import properties.PropertiesLoader;
+
 import java.awt.*;
 
 public class Resource extends Figure {
@@ -33,10 +35,17 @@ public class Resource extends Figure {
         FontMetrics fontMetrics = g.getFontMetrics();
         int stringWidth = fontMetrics.stringWidth(name);
         int stringHeight = fontMetrics.getAscent();
-        g.setColor(Color.WHITE);
+        g.setColor(this.getBackgroundColor());
         g.fillOval(xPos, yPos, DIAMETER, DIAMETER);
-        g.setColor(Color.BLACK);
+        g.setColor(this.getForegroundColor());
         g.drawString(name, xPos+ (DIAMETER /2) - stringWidth/2, yPos+ DIAMETER /2 + stringHeight/2);
+    }
+
+    @Override
+    public void loadConfig() {
+        PropertiesLoader propertiesLoader = new PropertiesLoader();
+        this.setBackgroundColor(propertiesLoader.getSecondaryColor());
+        this.setForegroundColor(propertiesLoader.getDefaultColor());
     }
 
     @Override
