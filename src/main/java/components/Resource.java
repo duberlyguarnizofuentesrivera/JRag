@@ -3,9 +3,48 @@ package components;
 import properties.PropertiesLoader;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Resource extends Figure {
-    public static int DIAMETER = 50;
+    private double ASPECT_RATIO = 0;
+    private int WIDTH = 0;
+
+    private int numberOfInstances;
+    List<Instance> instances = new ArrayList<>();
+
+
+    public Resource(int id, String name, Point position, int numberOfInstances) {
+        super(id, name, position);
+        this.numberOfInstances = numberOfInstances;
+    }
+
+
+    @Override
+    public void drawFigure(Graphics g) {
+        FontMetrics fontMetrics = g.getFontMetrics();
+        int stringWidth = fontMetrics.stringWidth(name);
+        int stringHeight = fontMetrics.getAscent();
+        g.setColor(this.getBackgroundColor());
+        g.fillRect(position.x, position.y, WIDTH, (int) (WIDTH * ASPECT_RATIO));
+        g.setColor(this.getForegroundColor());
+        g.drawString(name, position.x + WIDTH / 2 - stringWidth / 2, position.y + WIDTH / 2 + stringHeight / 2);
+        for (Instance instance : instances) {
+            instance.drawFigure(g);
+        }
+    }
+
+
+    @Override
+    public void loadConfig() {
+        PropertiesLoader propertiesLoader = new PropertiesLoader();
+        this.setBackgroundColor(propertiesLoader.getPrimaryColor());
+        this.setForegroundColor(propertiesLoader.getDefaultColor());
+        this.WIDTH = propertiesLoader.getResourceWidth();
+        this.ASPECT_RATIO = propertiesLoader.getResourceAspectRatio();
+    }
+
+
     public int getNumberOfInstances() {
         return numberOfInstances;
     }
@@ -14,57 +53,30 @@ public class Resource extends Figure {
         this.numberOfInstances = numberOfInstances;
     }
 
-    private int numberOfInstances;
+    class Instance extends Figure {
+        private int id;
+        private Point position;
+        private static int count = 0;
 
-    private final Relation relation = new Relation();
+        public Instance(int id) {
+            super(id, "Instance " + count, Resource.this.position);
+            this.id = id;
 
-    public Resource(int id, String name, int xPos, int yPos, int numberOfInstances) {
-        super(id, name, xPos, yPos);
-        this.numberOfInstances = numberOfInstances;
-    }
-
-    public boolean addProcess(Process process) {
-        if (this.numberOfInstances > this.relation.getProcesses().size()) {
-            return this.relation.getProcesses().add(process);
+            count++;
         }
-        return false;
-    }
 
-    @Override
-    public void drawFigure(Graphics g) {
-        FontMetrics fontMetrics = g.getFontMetrics();
-        int stringWidth = fontMetrics.stringWidth(name);
-        int stringHeight = fontMetrics.getAscent();
-        g.setColor(this.getBackgroundColor());
-        g.fillOval(xPos, yPos, DIAMETER, DIAMETER);
-        g.setColor(this.getForegroundColor());
-        g.drawString(name, xPos+ (DIAMETER /2) - stringWidth/2, yPos+ DIAMETER /2 + stringHeight/2);
-    }
+        @Override
+        public void drawFigure(Graphics g) {
+            g.setColor(this.getForegroundColor());
 
-    @Override
-    public void loadConfig() {
-        PropertiesLoader propertiesLoader = new PropertiesLoader();
-        this.setBackgroundColor(propertiesLoader.getSecondaryColor());
-        this.setForegroundColor(propertiesLoader.getDefaultColor());
-    }
+            g.drawString("*", position.x + count * 3, position.y);
+        }
 
-    @Override
-    public void setName(String name) {
-
-    }
-
-    @Override
-    public void setId(int id) {
-
-    }
-
-    @Override
-    public void setXPos(int xPos) {
-
-    }
-
-    @Override
-    public void setYPos(int yPos) {
+        @Override
+        public void loadConfig() {
+            PropertiesLoader propertiesLoader = new PropertiesLoader();
+            this.setForegroundColor(propertiesLoader.getDefaultColor());
+        }
 
     }
 }

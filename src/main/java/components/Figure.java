@@ -3,10 +3,10 @@ package components;
 import java.awt.*;
 
 public abstract class Figure {
-    int xPos;
-    int yPos;
+
     int id;
     String name;
+    Point position;
     Color backgroundColor;
     Color foregroundColor;
     Color borderColor;
@@ -35,11 +35,10 @@ public abstract class Figure {
         this.borderColor = borderColor;
     }
 
-    public Figure(int id, String name, int xPos, int yPos) {
+    public Figure(int id, String name, Point position) {
         this.id = id;
         this.name = name;
-        this.xPos = xPos;
-        this.yPos = yPos;
+        this.position = position;
         loadConfig();
     }
 
@@ -55,12 +54,8 @@ public abstract class Figure {
         this.id = id;
     }
 
-    public void setXPos(int xPos) {
-        this.xPos = xPos;
-    }
-
-    public void setYPos(int yPos) {
-        this.yPos = yPos;
+    public void setPosition(Point position) {
+        this.position = position;
     }
 
     public int getId() {
@@ -71,12 +66,8 @@ public abstract class Figure {
         return name;
     }
 
-    public int getXPos() {
-        return xPos;
-    }
-
-    public int getYPos() {
-        return yPos;
+    public Point getPosition() {
+        return position;
     }
 
 }

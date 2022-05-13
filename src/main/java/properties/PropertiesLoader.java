@@ -9,7 +9,8 @@ import java.util.Objects;
 import java.util.Properties;
 
 public class PropertiesLoader {
-    static private Properties prop = new Properties();
+    static private final Properties prop = new Properties();
+
     public static void main(String[] args) {
         try {
             String fileName = "rag.config";
@@ -22,34 +23,40 @@ public class PropertiesLoader {
             InputStream is = new FileInputStream(res.getFile());
 
             prop.load(is);
-
-            // get the value for app.name key
-            System.out.println(prop.getProperty("app.name"));
-            // get the value for app.version key
-            System.out.println(prop.getProperty("app.version"));
-
-            // get the value for app.vendor key and if the
-            // key is not available return Kode Java as
-            // the default value
-            System.out.println(prop.getProperty("app.vendor","Kode Java"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public Color getDefaultColor(){
-        Color color = Color.decode(prop.getProperty("color.default", "#ffffff"));
-        return color;
+
+    public Color getDefaultColor() {
+        return Color.decode(prop.getProperty("color.default", "#ffffff"));
     }
-    public Color getPrimaryColor(){
-        Color color = Color.decode(prop.getProperty("color.primary", "#2a536e"));
-        return color;
+
+    public Color getPrimaryColor() {
+        return Color.decode(prop.getProperty("color.primary", "#2a536e"));
     }
-    public Color getSecondaryColor(){
-        Color color = Color.decode(prop.getProperty("color.secondary", "#7e3560"));
-        return color;
+
+    public Color getSecondaryColor() {
+        return Color.decode(prop.getProperty("color.secondary", "#7e3560"));
     }
-    public Color getBackgroundColor(){
-        Color color = Color.decode(prop.getProperty("color.background", "#f1f1e6"));
-        return color;
+
+    public Color getBackgroundColor() {
+        return Color.decode(prop.getProperty("color.background", "#f1f1e6"));
+    }
+
+    public int getArrowSize() {
+        return Integer.parseInt(prop.getProperty("figure.arrow-size", "5"));
+    }
+
+    public int getResourceWidth() {
+        return Integer.parseInt(prop.getProperty("figure.resource-width", "50"));
+    }
+
+    public double getResourceAspectRatio() {
+        return Double.parseDouble(prop.getProperty("figure.resource-aspect-ratio", "0.75"));
+    }
+
+    public int getProcessDiamenter() {
+        return Integer.parseInt(prop.getProperty("figure.process-diameter", "45"));
     }
 }
