@@ -3,13 +3,23 @@ package components;
 import java.awt.*;
 
 public abstract class Figure {
-    int xPos;
-    int yPos;
+
     int id;
     String name;
+    int width;
+    int height;
+    Point position;
     Color backgroundColor;
     Color foregroundColor;
     Color borderColor;
+
+    public Figure(int id, String name, Point position) {
+        this.id = id;
+        this.name = name;
+        this.position = position;
+        loadConfig();
+    }
+
 
     public Color getBackgroundColor() {
         return backgroundColor;
@@ -35,48 +45,47 @@ public abstract class Figure {
         this.borderColor = borderColor;
     }
 
-    public Figure(int id, String name, int xPos, int yPos) {
-        this.id = id;
-        this.name = name;
-        this.xPos = xPos;
-        this.yPos = yPos;
-        loadConfig();
-    }
-
     abstract public void drawFigure(Graphics g);
     abstract public void loadConfig();
 
-
-    public void setName(String name) {
-        this.name = name;
+    public int getId() {
+        return id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setXPos(int xPos) {
-        this.xPos = xPos;
-    }
-
-    public void setYPos(int yPos) {
-        this.yPos = yPos;
-    }
-
-    public int getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
 
-    public int getXPos() {
-        return xPos;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getYPos() {
-        return yPos;
+    public Point getPosition() {
+        return position;
+    }
+
+    public void setPosition(Point position) {
+        this.position = position;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
 }
