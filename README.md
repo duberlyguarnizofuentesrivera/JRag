@@ -1,4 +1,7 @@
+[![Java CI with Maven](https://github.com/duberlyguarnizofuentesrivera/JRag/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/duberlyguarnizofuentesrivera/JRag/actions/workflows/maven.yml)
+
 Code by Duberly Guarnizo (duberlygfr@gmail.com)
+
 # JRag
 
 Tool to generate Resource Allocation Graphs (RAG) for the study of how operative systems work.
