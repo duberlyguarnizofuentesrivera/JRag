@@ -11,7 +11,7 @@ import java.util.Properties;
 public class PropertiesLoader {
     static private final Properties prop = new Properties();
 
-    public static void main(String[] args) {
+    public PropertiesLoader() {
         try {
             String fileName = "rag.config";
             ClassLoader classLoader = PropertiesLoader.class.getClassLoader();
@@ -29,23 +29,36 @@ public class PropertiesLoader {
     }
 
     public Color getDefaultColor() {
-        return Color.decode(prop.getProperty("color.default", "#ffffff"));
+        return Color.decode(prop.getProperty("color.default", "#FEFAE0"));
     }
 
-    public Color getPrimaryColor() {
-        return Color.decode(prop.getProperty("color.primary", "#2a536e"));
+    public Color getProcessBackgroundColor() {
+        return Color.decode(prop.getProperty("color.process-background", "#CCD5AE"));
     }
 
-    public Color getSecondaryColor() {
-        return Color.decode(prop.getProperty("color.secondary", "#7e3560"));
+    public Color getProcessForegroundColor() {
+        return Color.decode(prop.getProperty("color.process-foreground", "#264653"));
     }
 
     public Color getBackgroundColor() {
-        return Color.decode(prop.getProperty("color.background", "#f1f1e6"));
+        return Color.decode(prop.getProperty("color.background", "#FFFFFF"));
     }
 
+    public Color getRelationPrimaryColor() {
+        return Color.decode(prop.getProperty("color.relation-primary", "#E76F51"));
+    }
+
+    public Color getRelationSecondaryColor() {
+        return Color.decode(prop.getProperty("color.relation-secondary", "#2A9D8F"));
+    }
+    public Color getResourceBackgroundColor() {
+        return Color.decode(prop.getProperty("color.resource-background", "#D4A373"));
+    }
+    public Color getResourceForegroundColor() {
+        return Color.decode(prop.getProperty("color.resource-foreground", "#FEFAE0"));
+    }
     public int getArrowSize() {
-        return Integer.parseInt(prop.getProperty("figure.arrow-size", "5"));
+        return Integer.parseInt(prop.getProperty("figure.arrow-size", "7"));
     }
 
     public int getResourceWidth() {
@@ -56,7 +69,12 @@ public class PropertiesLoader {
         return Double.parseDouble(prop.getProperty("figure.resource-aspect-ratio", "0.75"));
     }
 
-    public int getProcessDiamenter() {
+    public int getProcessDiameter() {
         return Integer.parseInt(prop.getProperty("figure.process-diameter", "45"));
+    }
+
+
+    public int getInstanceDiameter() {
+        return Integer.parseInt(prop.getProperty("figure.instance-diameter", "6"));
     }
 }

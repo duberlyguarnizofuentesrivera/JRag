@@ -7,9 +7,13 @@ import java.awt.*;
 public class Process extends Figure {
 
 
-    private int DIAMENTER = 0;
+    private int DIAMETER = 0;
+
     public Process(int id, String name, Point position) {
-        super(id, name,position);
+        super(id, name, position);
+        loadConfig();
+        setHeight(DIAMETER);
+        setWidth(DIAMETER);
     }
 
     @Override
@@ -18,26 +22,25 @@ public class Process extends Figure {
         RenderingHints rh = new RenderingHints(
                 RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        rh.put(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_QUALITY);
         g2.setRenderingHints(rh);
 
         FontMetrics fontMetrics = g2.getFontMetrics();
         int stringWidth = fontMetrics.stringWidth(name);
         int stringHeight = fontMetrics.getAscent();
 
-        g2.setColor(Color.BLUE);
-        g2.fillOval(position.x, position.y, DIAMENTER, DIAMENTER);
+        g2.setColor(this.getBackgroundColor());
+        g2.fillOval(position.x, position.y, DIAMETER, DIAMETER);
         g2.setColor(this.getForegroundColor());
-        g2.drawString(name, position.x + DIAMENTER / 2 - stringWidth / 2, position.y + DIAMENTER / 2 + stringHeight / 2);
-        }
+        g2.drawString(name, position.x + DIAMETER / 2 - stringWidth / 2, position.y + DIAMETER / 2 + stringHeight / 2);
+
+    }
 
     @Override
     public void loadConfig() {
         PropertiesLoader propertiesLoader = new PropertiesLoader();
-        this.setBackgroundColor(propertiesLoader.getDefaultColor());
-        this.setForegroundColor(propertiesLoader.getPrimaryColor());
-        this.DIAMENTER = propertiesLoader.getProcessDiamenter();
+        this.setBackgroundColor(propertiesLoader.getProcessBackgroundColor());
+        this.setForegroundColor(propertiesLoader.getProcessForegroundColor());
+        this.DIAMETER = propertiesLoader.getProcessDiameter();
     }
 
 }
