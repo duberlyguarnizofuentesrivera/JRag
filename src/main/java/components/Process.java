@@ -17,12 +17,7 @@ public class Process extends Figure {
     }
 
     @Override
-    public void drawFigure(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
-        RenderingHints rh = new RenderingHints(
-                RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        g2.setRenderingHints(rh);
+    public void drawFigure(Graphics2D g2) {
 
         FontMetrics fontMetrics = g2.getFontMetrics();
         int stringWidth = fontMetrics.stringWidth(name);

@@ -7,6 +7,11 @@ import components.Resource;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -34,8 +39,8 @@ public class GraphGenerator {
         Resource resource5 = new Resource(5, "R5", new Point(67, 400), 2);
         Resource resource6 = new Resource(6, "R6", new Point(300, 100), 4);
         Process process5 = new Process(5, "P5", new Point(500, 328));
-        Relation relation5 = new Relation( process2,resource4.getInstances().get(3));
-        Relation relation6 = new Relation(process1,resource5.getInstances().get(1));
+        Relation relation5 = new Relation(process2, resource4.getInstances().get(3));
+        Relation relation6 = new Relation(process1, resource5.getInstances().get(1));
         Relation relation7 = new Relation(process3, process5);
         Relation relation8 = new Relation(process1, resource6.getInstances().get(3));
         figures.add(process1);
@@ -59,12 +64,109 @@ public class GraphGenerator {
         figures.add(relation8);
 
 
-        JFrame frame = new JFrame("Resource Allocation Graph");
-        frame.setSize(800, 800);
+        JFrame frame = new JFrame("Resource Allocation Graph - Configuration");
+        frame.setSize(350, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        DrawingPanel panel = new DrawingPanel(figures);
-        frame.setContentPane(panel);
+        frame.setLocationRelativeTo(null);
+        JPanel container = new JPanel();
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+        JPanel infoPanel = new JPanel();
+        JPanel controlsPanel = new JPanel(new GridLayout(2, 3));
+        JPanel tablePanel = new JPanel(new GridLayout(1, 2));
+        JPanel aboutPanel = new JPanel();
+        DrawingPanel resultsPanel = new DrawingPanel(figures);
+
+        //controls
+        JLabel lblInfo = new JLabel("<html><p>Set number of processes and resources, complete the<br> table with the number of instances of each resource, and<br> click on the <b>Generate</b> button to generate the graph.</p></html>");
+        JTextField txtNumberOfProcesses = new JTextField();
+        txtNumberOfProcesses.setBorder(new TitledBorder("Number of Processes"));
+        JTextField txtNumberOfResources = new JTextField();
+        txtNumberOfResources.setBorder(new TitledBorder("Number of Resources"));
+        JTextArea txtRelations = new JTextArea(5, 30);
+        JScrollPane scrollRelations = new JScrollPane(txtRelations);
+        scrollRelations.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollRelations.setBorder(new TitledBorder("Relations"));
+        JButton createGraph = new JButton("Create Graph");
+        final String[] columnNames = {"Recurso", "Instancias"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        JTable table = new JTable(model);
+        //Action listeners
+        txtNumberOfResources.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateTable();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateTable();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateTable();
+            }
+
+            void updateTable() {
+                try {
+                    int numberOfResources = Integer.parseInt(txtNumberOfResources.getText());
+                    model.setRowCount(0);
+                    for (int i = 0; i < numberOfResources; i++) {
+                        model.addRow(new String[]{"R" + (i + 1), "0"});
+                    }
+                    container.repaint();
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid number of resources");
+                }
+
+            }
+        });
+        txtNumberOfResources.addActionListener(e -> {
+
+        });
+        createGraph.addActionListener(e -> {
+            if (!txtNumberOfProcesses.getText().isEmpty() && !txtNumberOfResources.getText().isEmpty()) {
+                int numberOfProcesses = Integer.parseInt(txtNumberOfProcesses.getText());
+                int numberOfResources = Integer.parseInt(txtNumberOfResources.getText());
+                String[] relations = txtRelations.getText().split("\n");
+                figures.clear();
+                for (int i = 0; i < numberOfProcesses; i++) {
+                    figures.add(new Process(i + 1, "P" + (i + 1), new Point(20 + 100 * i, 100)));
+                }
+                for (int i = 0; i < numberOfResources; i++) {
+                    figures.add(new Resource(i + 1, "R" + (i + 1), new Point(20 + 100 * i, 300), model.getValueAt(i, 1).toString().equals("0") ? 0 : Integer.parseInt(model.getValueAt(i, 1).toString())));
+                }
+                for (String relation : relations) {
+                    String[] relationParts = relation.split(" ");
+                    figures.add(new Relation(figures.stream().filter(f -> f.getName().equals(relationParts[0])).findFirst().get(), figures.stream().filter(f -> f.getName().equals(relationParts[1])).findFirst().get()));
+                }
+                resultsPanel.repaint();
+            }
+        });
+
+        infoPanel.add(lblInfo);
+        controlsPanel.add(txtNumberOfProcesses);
+        controlsPanel.add(txtNumberOfResources);
+        controlsPanel.add(createGraph);
+        controlsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        tablePanel.add(scrollRelations);
+        tablePanel.add(new JScrollPane(table), BorderLayout.EAST);
+        tablePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        aboutPanel.add(new JLabel("Developed by: Duberly Guarnizo (duberlygfr@gmail.com)"));
+        container.add(infoPanel);
+        container.add(controlsPanel);
+        container.add(tablePanel);
+        container.add(aboutPanel);
+        frame.setContentPane(container);
+        //frame.pack();
         frame.setVisible(true);
+
+        JFrame resultsFrame = new JFrame("Resource Allocation Graph - Results");
+        resultsFrame.setSize(800, 800);
+        resultsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        resultsFrame.setContentPane(resultsPanel);
+        resultsFrame.setVisible(true);
+
     }
 
     private void saveImage(JPanel panel) {

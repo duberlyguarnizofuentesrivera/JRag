@@ -30,19 +30,17 @@ public class Resource extends Figure {
     }
 
     @Override
-    public void drawFigure(Graphics g) {
-
-        Graphics2D g2d = (Graphics2D) g;
-        FontMetrics fontMetrics = g2d.getFontMetrics();
+    public void drawFigure(Graphics2D g2) {
+        FontMetrics fontMetrics = g2.getFontMetrics();
         int stringWidth = fontMetrics.stringWidth(name);
         int stringHeight = fontMetrics.getAscent();
-        g2d.setColor(this.getBackgroundColor());
-        g2d.fillRect(position.x, position.y, WIDTH, (int) (WIDTH * ASPECT_RATIO));
-        g2d.setColor(this.getForegroundColor());
-        g2d.drawString(name, position.x + WIDTH / 2 - stringWidth / 2, position.y + WIDTH / 2 + stringHeight / 2);
+        g2.setColor(this.getBackgroundColor());
+        g2.fillRect(position.x, position.y, WIDTH, (int) (WIDTH * ASPECT_RATIO));
+        g2.setColor(this.getForegroundColor());
+        g2.drawString(name, position.x + WIDTH / 2 - stringWidth / 2, position.y + WIDTH / 2 + stringHeight / 2);
         //System.out.println("Drawing resource " + name + " at " + position.x + " " + position.y);
         for (Instance instance : instances) {
-            instance.drawFigure(g);
+            instance.drawFigure(g2);
         }
     }
 
@@ -83,10 +81,9 @@ public class Resource extends Figure {
         }
 
         @Override
-        public void drawFigure(Graphics g) {
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setColor(this.getForegroundColor());
-            g2d.fillOval(instancePosition.x, instancePosition.y, INSTANCE_DIAMETER, INSTANCE_DIAMETER);
+        public void drawFigure(Graphics2D g2) {
+            g2.setColor(this.getForegroundColor());
+            g2.fillOval(instancePosition.x, instancePosition.y, INSTANCE_DIAMETER, INSTANCE_DIAMETER);
             //System.out.println("Instance coordinates: " + Resource.this.getName() + " -> id=" + id + " " + instancePosition.x + " " + instancePosition.y);
 
         }

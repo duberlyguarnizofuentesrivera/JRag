@@ -23,15 +23,8 @@ public class Relation extends Figure {
 
 
     @Override
-    public void drawFigure(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        RenderingHints rh = new RenderingHints(
-                RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        rh.put(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_QUALITY);
-        g2d.setRenderingHints(rh);
-        g2d.setColor(this.getBackgroundColor());
+    public void drawFigure(Graphics2D g2) {
+        g2.setColor(this.getBackgroundColor());
         double angle = getAngle();
         int x1;
         int y1;
@@ -144,16 +137,16 @@ public class Relation extends Figure {
             }
         }
         if(from instanceof Process){
-            g2d.setColor(this.getForegroundColor());
+            g2.setColor(this.getForegroundColor());
         }else{
-            g2d.setColor(this.getBackgroundColor());
+            g2.setColor(this.getBackgroundColor());
         }
-        g2d.setStroke(new BasicStroke(2));
-        g2d.drawLine(x1, y1, x2, y2);
+        g2.setStroke(new BasicStroke(2));
+        g2.drawLine(x1, y1, x2, y2);
         //System.out.println("x1: " + x1 + " y1: " + y1 + " x2: " + x2 + " y2: " + y2 + " from " + from.getName() + " to " + to.getName());
         Polygon arrowPoint = createArrow(angle, x2, y2);
-        g2d.setStroke(new BasicStroke(1));
-        g2d.fillPolygon(arrowPoint);
+        g2.setStroke(new BasicStroke(1));
+        g2.fillPolygon(arrowPoint);
 
     }
 

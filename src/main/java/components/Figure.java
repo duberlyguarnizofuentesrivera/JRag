@@ -45,7 +45,7 @@ public abstract class Figure {
         this.borderColor = borderColor;
     }
 
-    abstract public void drawFigure(Graphics g);
+    abstract public void drawFigure(Graphics2D g2);
     abstract public void loadConfig();
 
     public int getId() {
