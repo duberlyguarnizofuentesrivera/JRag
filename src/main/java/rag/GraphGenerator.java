@@ -19,11 +19,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class GraphGenerator {
-    static Set<Figure> figures = new HashSet<>();
+    static final Set<Figure> figures = new HashSet<>();
 
 
     public static void main(String[] args) {
-
+        //example initial block ...to be removed
         Process process1 = new Process(1, "P1", new Point(100, 200));
         Process process2 = new Process(2, "P2", new Point(200, 200));
         Process process3 = new Process(3, "P3", new Point(300, 300));
@@ -62,7 +62,7 @@ public class GraphGenerator {
         figures.add(relation6);
         figures.add(relation7);
         figures.add(relation8);
-
+    // end of example initial block
 
         JFrame frame = new JFrame("Resource Allocation Graph - Configuration");
         frame.setSize(350, 400);
@@ -136,9 +136,48 @@ public class GraphGenerator {
                 for (int i = 0; i < numberOfResources; i++) {
                     figures.add(new Resource(i + 1, "R" + (i + 1), new Point(20 + 100 * i, 300), model.getValueAt(i, 1).toString().equals("0") ? 0 : Integer.parseInt(model.getValueAt(i, 1).toString())));
                 }
+                //TODO: refactor this
                 for (String relation : relations) {
                     String[] relationParts = relation.split(" ");
-                    figures.add(new Relation(figures.stream().filter(f -> f.getName().equals(relationParts[0])).findFirst().get(), figures.stream().filter(f -> f.getName().equals(relationParts[1])).findFirst().get()));
+                    String toText = relationParts[1];
+                    String fromText = relationParts[0];
+                    Figure to;
+                    Figure from;
+                    if (fromText.contains(".")) {
+                        String fromName = fromText.substring(0, fromText.indexOf("."));
+                        String instanceName = fromText.substring(fromText.indexOf(".") + 1);
+                        try {
+                            Integer.parseInt(instanceName);
+                            System.out.println("INSTANCIA:" + instanceName);
+                            from = figures.stream().filter(f -> f.getName().equals(fromName)).findFirst().get();
+                            //TODO: check the case when instance is 0 -> should be treated as a resource
+                            from = ((Resource) from).getInstances().get(Integer.parseInt(instanceName) - 1);
+                        } catch (NumberFormatException error) {
+                            System.out.println("Invalid instance name in first part of relation");
+                            return;
+                        }
+
+                    } else {
+                        from = figures.stream().filter(f -> f.getName().equals(fromText)).findFirst().get();
+                    }
+                    if (toText.contains(".")) {
+                        String toName = toText.substring(0, toText.indexOf("."));
+                        String instanceName = toText.substring(toText.indexOf(".") + 1);
+                        try {
+                            Integer.parseInt(instanceName);
+                            System.out.println("INSTANCIA:" + instanceName);
+                            to = figures.stream().filter(f -> f.getName().equals(toName)).findFirst().get();
+                            to = ((Resource) to).getInstances().get(Integer.parseInt(instanceName) - 1);
+                        } catch (NumberFormatException error) {
+                            System.out.println("Invalid instance name in second part of relation");
+                            return;
+                        }
+
+                    } else {
+                        to = figures.stream().filter(f -> f.getName().equals(toText)).findFirst().get();
+                    }
+
+                    figures.add(new Relation(from, to));
                 }
                 resultsPanel.repaint();
             }
@@ -170,19 +209,18 @@ public class GraphGenerator {
     }
 
     private void saveImage(JPanel panel) {
-        BufferedImage imagebuf = null;
+        BufferedImage imageBuffer = null;
         try {
-            imagebuf = new Robot().createScreenCapture(panel.bounds());
+            imageBuffer = new Robot().createScreenCapture(panel.bounds());
         } catch (AWTException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-        Graphics2D graphics2D = imagebuf.createGraphics();
+        assert imageBuffer != null;
+        Graphics2D graphics2D = imageBuffer.createGraphics();
         panel.paint(graphics2D);
         try {
-            ImageIO.write(imagebuf, "jpeg", new File("save1.jpeg"));
+            ImageIO.write(imageBuffer, "jpeg", new File("save1.jpeg"));
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             System.out.println("error");
         }
     }

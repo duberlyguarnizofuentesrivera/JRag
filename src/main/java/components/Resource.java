@@ -66,7 +66,7 @@ public class Resource extends Figure {
     class Instance extends Figure {
 
         private static int INSTANCE_DIAMETER = 0;
-        Point instancePosition;
+        final Point instancePosition;
 
         public Instance(int id) {
             super(id, "Instance " + id + " of " + Resource.this.getName(), Resource.this.position);

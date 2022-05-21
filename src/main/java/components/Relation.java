@@ -46,7 +46,7 @@ public class Relation extends Figure {
                 //top right
                 if (from instanceof Process) {
                     x1 = (int) (from.getPosition().x + 1.7071 * from.getWidth() / 2);
-                    y1 = (int) (from.getPosition().y +0.2928*from.getHeight()/2);
+                    y1 = (int) (from.getPosition().y + 0.2928 * from.getHeight() / 2);
                 } else {
                     x1 = from.getPosition().x + from.getWidth();
                     y1 = from.getPosition().y;
@@ -136,9 +136,9 @@ public class Relation extends Figure {
                 }
             }
         }
-        if(from instanceof Process){
+        if (from instanceof Process) {
             g2.setColor(this.getForegroundColor());
-        }else{
+        } else {
             g2.setColor(this.getBackgroundColor());
         }
         g2.setStroke(new BasicStroke(2));
@@ -182,10 +182,12 @@ public class Relation extends Figure {
         Point b = new Point(x - ARROW_SIZE, y - ARROW_SIZE);
         Point c = new Point(x - ARROW_SIZE, y + ARROW_SIZE);
         //rotate around X = x-ARROW_SIZE/2, Y = y
-        int new_b_x = (int) (x + (b.x - x) * Math.cos(radians) - (b.y - y) * Math.sin(radians));
-        int new_b_y = (int) (y + (b.x - x) * Math.sin(radians) + (b.y - y) * Math.cos(radians));
-        int new_c_x = (int) (x + (c.x - x) * Math.cos(radians) - (c.y - y) * Math.sin(radians));
-        int new_c_y = (int) (y + (c.x - x) * Math.sin(radians) + (c.y - y) * Math.cos(radians));
+        double cos = Math.cos(radians);
+        double sin = Math.sin(radians);
+        int new_b_x = (int) (x + (b.x - x) * cos - (b.y - y) * sin);
+        int new_b_y = (int) (y + (b.x - x) * sin + (b.y - y) * cos);
+        int new_c_x = (int) (x + (c.x - x) * cos - (c.y - y) * sin);
+        int new_c_y = (int) (y + (c.x - x) * sin + (c.y - y) * cos);
         arrowPoint.addPoint(x, y);
         //System.out.println("arrowPoint: " + x + ", " + y);
         arrowPoint.addPoint(new_b_x, new_b_y);

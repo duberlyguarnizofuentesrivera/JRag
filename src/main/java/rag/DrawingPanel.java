@@ -8,7 +8,7 @@ import java.awt.*;
 import java.util.Set;
 
 public class DrawingPanel extends JPanel {
-    Set<Figure> figures;
+    final Set<Figure> figures;
 
     public DrawingPanel(Set<Figure> figures) {
         this.figures = figures;
@@ -39,10 +39,5 @@ public class DrawingPanel extends JPanel {
             }
         }
 
-    }
-
-    @Override
-    public Dimension getPreferredSize() {
-        return super.getPreferredSize();
     }
 }
