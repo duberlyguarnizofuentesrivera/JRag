@@ -62,7 +62,7 @@ public class GraphGenerator {
         figures.add(relation6);
         figures.add(relation7);
         figures.add(relation8);
-    // end of example initial block
+        // end of example initial block
 
         JFrame frame = new JFrame("Resource Allocation Graph - Configuration");
         frame.setSize(350, 400);
@@ -138,46 +138,49 @@ public class GraphGenerator {
                 }
                 //TODO: refactor this
                 for (String relation : relations) {
+                    relation = relation.trim().toUpperCase();
                     String[] relationParts = relation.split(" ");
-                    String toText = relationParts[1];
-                    String fromText = relationParts[0];
-                    Figure to;
-                    Figure from;
-                    if (fromText.contains(".")) {
-                        String fromName = fromText.substring(0, fromText.indexOf("."));
-                        String instanceName = fromText.substring(fromText.indexOf(".") + 1);
-                        try {
-                            Integer.parseInt(instanceName);
-                            System.out.println("INSTANCIA:" + instanceName);
-                            from = figures.stream().filter(f -> f.getName().equals(fromName)).findFirst().get();
-                            //TODO: check the case when instance is 0 -> should be treated as a resource
-                            from = ((Resource) from).getInstances().get(Integer.parseInt(instanceName) - 1);
-                        } catch (NumberFormatException error) {
-                            System.out.println("Invalid instance name in first part of relation");
-                            return;
+                    if (relationParts.length == 2) {
+                        String toText = relationParts[1];
+                        String fromText = relationParts[0];
+                        Figure to;
+                        Figure from;
+                        if (fromText.contains(".")) {
+                            String fromName = fromText.substring(0, fromText.indexOf("."));
+                            String instanceName = fromText.substring(fromText.indexOf(".") + 1);
+                            try {
+                                Integer.parseInt(instanceName);
+                                System.out.println("INSTANCIA:" + instanceName);
+                                from = figures.stream().filter(f -> f.getName().equals(fromName)).findFirst().get();
+                                //TODO: check the case when instance is 0 -> should be treated as a resource
+                                from = ((Resource) from).getInstances().get(Integer.parseInt(instanceName) - 1);
+                            } catch (NumberFormatException error) {
+                                System.out.println("Invalid instance name in first part of relation");
+                                return;
+                            }
+
+                        } else {
+                            from = figures.stream().filter(f -> f.getName().equals(fromText)).findFirst().get();
+                        }
+                        if (toText.contains(".")) {
+                            String toName = toText.substring(0, toText.indexOf("."));
+                            String instanceName = toText.substring(toText.indexOf(".") + 1);
+                            try {
+                                Integer.parseInt(instanceName);
+                                System.out.println("INSTANCIA:" + instanceName);
+                                to = figures.stream().filter(f -> f.getName().equals(toName)).findFirst().get();
+                                to = ((Resource) to).getInstances().get(Integer.parseInt(instanceName) - 1);
+                            } catch (NumberFormatException error) {
+                                System.out.println("Invalid instance name in second part of relation");
+                                return;
+                            }
+
+                        } else {
+                            to = figures.stream().filter(f -> f.getName().equals(toText)).findFirst().get();
                         }
 
-                    } else {
-                        from = figures.stream().filter(f -> f.getName().equals(fromText)).findFirst().get();
+                        figures.add(new Relation(from, to));
                     }
-                    if (toText.contains(".")) {
-                        String toName = toText.substring(0, toText.indexOf("."));
-                        String instanceName = toText.substring(toText.indexOf(".") + 1);
-                        try {
-                            Integer.parseInt(instanceName);
-                            System.out.println("INSTANCIA:" + instanceName);
-                            to = figures.stream().filter(f -> f.getName().equals(toName)).findFirst().get();
-                            to = ((Resource) to).getInstances().get(Integer.parseInt(instanceName) - 1);
-                        } catch (NumberFormatException error) {
-                            System.out.println("Invalid instance name in second part of relation");
-                            return;
-                        }
-
-                    } else {
-                        to = figures.stream().filter(f -> f.getName().equals(toText)).findFirst().get();
-                    }
-
-                    figures.add(new Relation(from, to));
                 }
                 resultsPanel.repaint();
             }

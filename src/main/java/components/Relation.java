@@ -51,8 +51,14 @@ public class Relation extends Figure {
                     x1 = from.getPosition().x + from.getWidth();
                     y1 = from.getPosition().y;
                 }
-                x2 = to.getPosition().x;
-                y2 = to.getPosition().y + to.getHeight();
+                if (to instanceof Process) {
+                    x2 = (int) (to.getPosition().x + 0.2928 * to.getWidth() / 2);
+                    y2 = (int) (to.getPosition().y + 1.7071 * to.getHeight() / 2);
+                } else {
+                    x2 = to.getPosition().x;
+                    y2 = to.getPosition().y + to.getHeight();
+                }
+
             } else {
 
                 if (angle <= 120) {
@@ -73,17 +79,27 @@ public class Relation extends Figure {
 
                         }
                         //top left
-                        x2 = to.getPosition().x + to.getWidth();
-                        y2 = to.getPosition().y + to.getHeight();
+                        if (to instanceof Process) {
+                            x2 = (int) (to.getPosition().x + 1.7071 * to.getWidth() / 2);
+                            y2 = (int) (to.getPosition().y + 1.7071 * to.getHeight() / 2);
+                        } else {
+                            x2 = to.getPosition().x + to.getWidth();
+                            y2 = to.getPosition().y + to.getHeight();
+                        }
+
 
                     } else {
                         if (angle <= 210) {
                             //left
-                            x1 = from.getPosition().x;
-                            y1 = from.getPosition().y + from.getHeight();
+                            if (from instanceof Process) {
+                                x1 = (int) (from.getPosition().x);
+                                y1 = (int) (from.getPosition().y + from.getHeight() / 2);
+                            } else {
+                                x1 = from.getPosition().x;
+                                y1 = from.getPosition().y + from.getHeight();
+                            }
                             x2 = to.getPosition().x + to.getWidth();
-                            y2 = to.getPosition().y + to.getHeight();
-
+                            y2 = to.getPosition().y + to.getHeight() / 2;
 
                         } else {
                             if (angle <= 270) {
@@ -95,8 +111,14 @@ public class Relation extends Figure {
                                     x1 = from.getPosition().x;
                                     y1 = from.getPosition().y + from.getHeight();
                                 }
-                                x2 = to.getPosition().x + to.getWidth();
-                                y2 = to.getPosition().y;
+                                if (to instanceof Process) {
+                                    x2 = (int) (to.getPosition().x + 1.7071 * to.getWidth() / 2);
+                                    y2 = (int) (to.getPosition().y + 0.2928 * to.getHeight() / 2);
+                                } else {
+                                    x2 = to.getPosition().x + to.getWidth();
+                                    y2 = to.getPosition().y;
+                                }
+
 
                             } else {
                                 if (angle <= 300) {
@@ -117,9 +139,13 @@ public class Relation extends Figure {
                                             x1 = from.getPosition().x + from.getWidth();
                                             y1 = from.getPosition().y + from.getHeight();
                                         }
-
-                                        x2 = to.getPosition().x;
-                                        y2 = to.getPosition().y;
+                                        if (to instanceof Process) {
+                                            x2 = (int) (to.getPosition().x + 0.2928 * to.getWidth() / 2);
+                                            y2 = (int) (to.getPosition().y + 0.2928 * to.getHeight() / 2);
+                                        } else {
+                                            x2 = to.getPosition().x;
+                                            y2 = to.getPosition().y;
+                                        }
                                     } else {
                                         //right
                                         x1 = from.getPosition().x + from.getWidth();
@@ -171,7 +197,7 @@ public class Relation extends Figure {
         if (angle < 0) {
             angle = 360 + angle;
         }
-        System.out.println(angle + " " + from.name + "->" + to.name);
+        //System.out.println(angle + " " + from.name + "->" + to.name);
         return angle;
     }
 

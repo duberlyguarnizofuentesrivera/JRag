@@ -59,6 +59,14 @@ public class Resource extends Figure {
         return numberOfInstances;
     }
 
+    @Override
+    public void setPosition(Point position) {
+        super.setPosition(position);
+        for (Instance instance : instances) {
+            instance.setPosition(position);
+        }
+    }
+
     public void setNumberOfInstances(int numberOfInstances) {
         this.numberOfInstances = numberOfInstances;
     }
@@ -66,16 +74,12 @@ public class Resource extends Figure {
     class Instance extends Figure {
 
         private static int INSTANCE_DIAMETER = 0;
-        final Point instancePosition;
+        Point instancePosition;
 
         public Instance(int id) {
             super(id, "Instance " + id + " of " + Resource.this.getName(), Resource.this.position);
             loadConfig();
-            int widthOfColumns = Resource.this.WIDTH / Resource.this.getNumberOfInstances();
-            int x = Resource.this.position.x + id * widthOfColumns + (widthOfColumns - INSTANCE_DIAMETER) / 2;
-            int y = (int) (Resource.this.position.y + Resource.this.WIDTH * Resource.this.ASPECT_RATIO / 3);
-            instancePosition = new Point(x, y);
-            this.position = instancePosition;
+            setPosition(Resource.this.position);
             this.setHeight(INSTANCE_DIAMETER);
             this.setWidth(INSTANCE_DIAMETER);
         }
@@ -86,6 +90,15 @@ public class Resource extends Figure {
             g2.fillOval(instancePosition.x, instancePosition.y, INSTANCE_DIAMETER, INSTANCE_DIAMETER);
             //System.out.println("Instance coordinates: " + Resource.this.getName() + " -> id=" + id + " " + instancePosition.x + " " + instancePosition.y);
 
+        }
+
+        @Override
+        public void setPosition(Point resourcePosition) {
+            int widthOfColumns = Resource.this.WIDTH / Resource.this.getNumberOfInstances();
+            int x = resourcePosition.x + id * widthOfColumns + (widthOfColumns - INSTANCE_DIAMETER) / 2;
+            int y = (int) (resourcePosition.y + Resource.this.WIDTH * Resource.this.ASPECT_RATIO / 3);
+            instancePosition = new Point(x, y);
+            this.position = instancePosition;
         }
 
         @Override

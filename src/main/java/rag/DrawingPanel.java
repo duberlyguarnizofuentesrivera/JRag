@@ -5,13 +5,53 @@ import components.Relation;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Set;
 
 public class DrawingPanel extends JPanel {
     final Set<Figure> figures;
 
+
     public DrawingPanel(Set<Figure> figures) {
         this.figures = figures;
+        MouseAdapter adapter = new MouseAdapter() {
+            Figure draggedFigure;
+            Point lastMousePosition;
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                for (Figure figure : figures) {
+                    if (figure.getPosition().x <= e.getX() && figure.getPosition().x + figure.getWidth() >= e.getX() &&
+                            figure.getPosition().y <= e.getY() && figure.getPosition().y + figure.getHeight() >= e.getY()) {
+                        lastMousePosition = e.getPoint();
+                        draggedFigure = figure;
+                        //System.out.printf("Pressed on %s\n", draggedFigure.getName());
+                        repaint();
+                    }
+                }
+            }
+
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent e) {
+                draggedFigure = null;
+                lastMousePosition = null;
+            }
+
+            @Override
+            public void mouseDragged(java.awt.event.MouseEvent e) {
+                if (draggedFigure != null) {
+                    draggedFigure.setPosition(new Point(e.getX(), e.getY()));
+                    lastMousePosition = e.getPoint();
+                    repaint();
+                    //System.out.println("dragged " + draggedFigure.getName());
+                } else {
+                    // System.out.println("dragged nothing");
+                }
+            }
+        };
+        addMouseListener(adapter);
+        addMouseMotionListener(adapter);
     }
 
     @Override
