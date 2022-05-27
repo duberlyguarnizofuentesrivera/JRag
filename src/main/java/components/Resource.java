@@ -11,6 +11,7 @@ public class Resource extends Figure {
     private int WIDTH = 0;
 
     private int numberOfInstances;
+    private int numberOfInstancesUsed=0;
     private final List<Instance> instances = new ArrayList<>();
 
 
@@ -70,6 +71,12 @@ public class Resource extends Figure {
     public void setNumberOfInstances(int numberOfInstances) {
         this.numberOfInstances = numberOfInstances;
     }
+    public void addInstanceUsed() {
+        this.numberOfInstancesUsed++;
+    }
+    public int getNumberOfInstancesUsed() {
+        return numberOfInstancesUsed;
+    }
 
     class Instance extends Figure {
 
@@ -106,6 +113,10 @@ public class Resource extends Figure {
             PropertiesLoader propertiesLoader = new PropertiesLoader();
             this.setForegroundColor(propertiesLoader.getDefaultColor());
             INSTANCE_DIAMETER = propertiesLoader.getInstanceDiameter();
+        }
+
+        protected Resource getParent(){
+            return Resource.this;
         }
 
     }

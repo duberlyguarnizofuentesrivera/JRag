@@ -18,6 +18,8 @@ public class DrawingPanel extends JPanel {
         MouseAdapter adapter = new MouseAdapter() {
             Figure draggedFigure;
             Point lastMousePosition;
+            int diffX=0;
+            int diffY=0;
 
             @Override
             public void mousePressed(MouseEvent e) {
@@ -25,6 +27,8 @@ public class DrawingPanel extends JPanel {
                     if (figure.getPosition().x <= e.getX() && figure.getPosition().x + figure.getWidth() >= e.getX() &&
                             figure.getPosition().y <= e.getY() && figure.getPosition().y + figure.getHeight() >= e.getY()) {
                         lastMousePosition = e.getPoint();
+                        diffX = figure.getPosition().x - e.getX();
+                        diffY = figure.getPosition().y - e.getY();
                         draggedFigure = figure;
                         //System.out.printf("Pressed on %s\n", draggedFigure.getName());
                         repaint();
@@ -41,7 +45,7 @@ public class DrawingPanel extends JPanel {
             @Override
             public void mouseDragged(java.awt.event.MouseEvent e) {
                 if (draggedFigure != null) {
-                    draggedFigure.setPosition(new Point(e.getX(), e.getY()));
+                    draggedFigure.setPosition(new Point(e.getX() + diffX, e.getY() + diffY));
                     lastMousePosition = e.getPoint();
                     repaint();
                     //System.out.println("dragged " + draggedFigure.getName());

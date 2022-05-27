@@ -17,6 +17,9 @@ public class Relation extends Figure {
                 from.getPosition());
         this.from = from;
         this.to = to;
+        if(to instanceof Resource.Instance){
+            ((Resource.Instance) to).getParent().addInstanceUsed();
+        }
         idCounter++;
         loadConfig();
     }
@@ -219,5 +222,12 @@ public class Relation extends Figure {
         arrowPoint.addPoint(new_b_x, new_b_y);
         arrowPoint.addPoint(new_c_x, new_c_y);
         return arrowPoint;
+    }
+
+    public Object getFrom() {
+        return from;
+    }
+    public Object getTo() {
+        return to;
     }
 }
