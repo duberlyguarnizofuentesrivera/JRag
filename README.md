@@ -1,5 +1,5 @@
-[![Java CI with Maven](https://github.com/duberlyguarnizofuentesrivera/JRag/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/duberlyguarnizofuentesrivera/JRag/actions/workflows/maven.yml)
-
+[![Java CI with Maven](https://github.com/duberlyguarnizofuentesrivera/JRag/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/duberlyguarnizofuentesrivera/JRag/actions/workflows/maven.yml) 
+[![Maven Package](https://github.com/duberlyguarnizofuentesrivera/JRag/actions/workflows/maven-publish.yml/badge.svg?branch=master)](https://github.com/duberlyguarnizofuentesrivera/JRag/actions/workflows/maven-publish.yml)
 Code by Duberly Guarnizo (duberlygfr@gmail.com)
 
 # JRag
