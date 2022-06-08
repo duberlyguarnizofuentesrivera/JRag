@@ -35,7 +35,7 @@ public class Process extends Figure {
         PropertiesLoader propertiesLoader = new PropertiesLoader();
         this.setBackgroundColor(propertiesLoader.getProcessBackgroundColor());
         this.setForegroundColor(propertiesLoader.getProcessForegroundColor());
-        this.DIAMETER = propertiesLoader.getProcessDiameter();
+        DIAMETER = propertiesLoader.getProcessDiameter();
     }
 
 }

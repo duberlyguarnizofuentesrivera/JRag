@@ -23,50 +23,11 @@ public class GraphGenerator {
 
 
     public static void main(String[] args) {
-        //example initial block ...to be removed
-        Process process1 = new Process(1, "P1", new Point(100, 200));
-        Process process2 = new Process(2, "P2", new Point(200, 200));
-        Process process3 = new Process(3, "P3", new Point(300, 300));
-        Process process4 = new Process(4, "P4", new Point(400, 400));
-        Resource resource1 = new Resource(1, "R1", new Point(500, 500), 2);
-        Resource resource2 = new Resource(2, "R2", new Point(500, 200), 3);
-        Resource resource3 = new Resource(3, "R3", new Point(300, 450), 1);
-        Relation relation1 = new Relation(resource1.getInstances().get(0), process1);
-        Relation relation2 = new Relation(process2, resource3.getInstances().get(0));
-        Relation relation3 = new Relation(process4, resource1.getInstances().get(1));
-        Relation relation4 = new Relation(process3, resource2.getInstances().get(2));
-        Resource resource4 = new Resource(4, "R4", new Point(220, 100), 5);
-        Resource resource5 = new Resource(5, "R5", new Point(67, 400), 2);
-        Resource resource6 = new Resource(6, "R6", new Point(300, 100), 4);
-        Process process5 = new Process(5, "P5", new Point(500, 328));
-        Relation relation5 = new Relation(process2, resource4.getInstances().get(3));
-        Relation relation6 = new Relation(process1, resource5.getInstances().get(1));
-        Relation relation7 = new Relation(process3, process5);
-        Relation relation8 = new Relation(process1, resource6.getInstances().get(3));
-        figures.add(process1);
-        figures.add(process2);
-        figures.add(process3);
-        figures.add(process4);
-        figures.add(process5);
-        figures.add(resource1);
-        figures.add(resource2);
-        figures.add(resource3);
-        figures.add(resource4);
-        figures.add(resource5);
-        figures.add(resource6);
-        figures.add(relation1);
-        figures.add(relation2);
-        figures.add(relation3);
-        figures.add(relation4);
-        figures.add(relation5);
-        figures.add(relation6);
-        figures.add(relation7);
-        figures.add(relation8);
-        // end of example initial block
+        loadDemoData();
 
         JFrame frame = new JFrame("Resource Allocation Graph - Configuration");
         frame.setSize(350, 400);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         JPanel container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
@@ -84,7 +45,7 @@ public class GraphGenerator {
         txtNumberOfResources.setBorder(new TitledBorder("Number of Resources"));
         JTextArea txtRelations = new JTextArea(5, 30);
         JScrollPane scrollRelations = new JScrollPane(txtRelations);
-        scrollRelations.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollRelations.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollRelations.setBorder(new TitledBorder("Relations"));
         JButton createGraph = new JButton("Create Graph");
         final String[] columnNames = {"Recurso", "Instancias"};
@@ -200,15 +161,56 @@ public class GraphGenerator {
         container.add(tablePanel);
         container.add(aboutPanel);
         frame.setContentPane(container);
-        //frame.pack();
         frame.setVisible(true);
 
         JFrame resultsFrame = new JFrame("Resource Allocation Graph - Results");
         resultsFrame.setSize(800, 800);
-        resultsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        resultsFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         resultsFrame.setContentPane(resultsPanel);
         resultsFrame.setVisible(true);
 
+    }
+
+    private static void loadDemoData() {
+        //example initial block ...to be removed
+        Process process1 = new Process(1, "P1", new Point(100, 200));
+        Process process2 = new Process(2, "P2", new Point(200, 200));
+        Process process3 = new Process(3, "P3", new Point(300, 300));
+        Process process4 = new Process(4, "P4", new Point(400, 400));
+        Resource resource1 = new Resource(1, "R1", new Point(500, 500), 2);
+        Resource resource2 = new Resource(2, "R2", new Point(500, 200), 3);
+        Resource resource3 = new Resource(3, "R3", new Point(300, 450), 1);
+        Relation relation1 = new Relation(resource1.getInstances().get(0), process1);
+        Relation relation2 = new Relation(process2, resource3.getInstances().get(0));
+        Relation relation3 = new Relation(process4, resource1.getInstances().get(1));
+        Relation relation4 = new Relation(process3, resource2.getInstances().get(2));
+        Resource resource4 = new Resource(4, "R4", new Point(220, 100), 5);
+        Resource resource5 = new Resource(5, "R5", new Point(67, 400), 2);
+        Resource resource6 = new Resource(6, "R6", new Point(300, 100), 4);
+        Process process5 = new Process(5, "P5", new Point(500, 328));
+        Relation relation5 = new Relation(process2, resource4.getInstances().get(3));
+        Relation relation6 = new Relation(process1, resource5.getInstances().get(1));
+        Relation relation7 = new Relation(process3, process5);
+        Relation relation8 = new Relation(process1, resource6.getInstances().get(3));
+        figures.add(process1);
+        figures.add(process2);
+        figures.add(process3);
+        figures.add(process4);
+        figures.add(process5);
+        figures.add(resource1);
+        figures.add(resource2);
+        figures.add(resource3);
+        figures.add(resource4);
+        figures.add(resource5);
+        figures.add(resource6);
+        figures.add(relation1);
+        figures.add(relation2);
+        figures.add(relation3);
+        figures.add(relation4);
+        figures.add(relation5);
+        figures.add(relation6);
+        figures.add(relation7);
+        figures.add(relation8);
     }
 
     private void saveImage(JPanel panel) {
